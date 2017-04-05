@@ -75,27 +75,31 @@ void setOutputs(){
 int brightness = 0;
 
 #define MAX  100
+#define MIN  10
+
+#define COLOR_FACTOR_OF_GREEN     0.3
+#define COLOR_FACTOR_OF_BLUE      0.4
 
 void loop(){
   // int val = analogRead(analogPin);
-  for(brightness = 10; brightness < MAX; brightness++){
-    outputs[0] = (brightness*0.3);
+  for(brightness = MIN; brightness < MAX; brightness++){
     outputs[1] = 0;
-    outputs[2] = (brightness*0.4);
+    outputs[0] = (brightness * COLOR_FACTOR_OF_GREEN);
+    outputs[2] = (brightness * COLOR_FACTOR_OF_BLUE);
     outputs[3] = 0;
-    outputs[4] = ((MAX-brightness)*0.3)+10;
-    outputs[5] = ((MAX-brightness)*0.4)+10;
+    outputs[4] = ((MAX-brightness) * COLOR_FACTOR_OF_GREEN) + MIN;
+    outputs[5] = ((MAX-brightness) * COLOR_FACTOR_OF_BLUE)  + MIN;
     setOutputs();
     delay(DELAY_BETWEEN_BRIGHTNESS_CHANGES);
   }
 
-  for(brightness = MAX; brightness > 10; brightness--){
-    outputs[0] = (brightness*0.3);
+  for(brightness = MAX; brightness > MIN; brightness--){
     outputs[1] = 0;
-    outputs[2] = (brightness*0.4);
+    outputs[0] = (brightness * COLOR_FACTOR_OF_GREEN);
+    outputs[2] = (brightness * COLOR_FACTOR_OF_BLUE);
     outputs[3] = 0;
-    outputs[4] = ((MAX-brightness)*0.3)+10;
-    outputs[5] = ((MAX-brightness)*0.4)+10;
+    outputs[4] = ((MAX-brightness) * COLOR_FACTOR_OF_GREEN) + MIN;
+    outputs[5] = ((MAX-brightness) * COLOR_FACTOR_OF_BLUE)  + MIN;
     setOutputs();
     delay(DELAY_BETWEEN_BRIGHTNESS_CHANGES);
   }
