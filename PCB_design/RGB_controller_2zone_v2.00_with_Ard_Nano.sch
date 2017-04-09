@@ -4200,6 +4200,9 @@ http://www.xganon.com</description>
 <part name="EXT" library="rcl" deviceset="R-EU_" device="0207/10"/>
 <part name="JP1" library="pinhead" deviceset="PINHD-1X2" device=""/>
 <part name="SUPPLY7" library="supply2" deviceset="GND" device=""/>
+<part name="JP2" library="pinhead" deviceset="PINHD-1X2" device=""/>
+<part name="P+3" library="supply1" deviceset="VCC" device=""/>
+<part name="SUPPLY9" library="supply2" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4254,6 +4257,9 @@ http://www.xganon.com</description>
 <instance part="EXT" gate="G$1" x="83.82" y="68.58" rot="R180"/>
 <instance part="JP1" gate="G$1" x="96.52" y="66.04"/>
 <instance part="SUPPLY7" gate="GND" x="93.98" y="63.5"/>
+<instance part="JP2" gate="G$1" x="0" y="58.42" rot="MR0"/>
+<instance part="P+3" gate="VCC" x="20.32" y="58.42" rot="R270"/>
+<instance part="SUPPLY9" gate="GND" x="12.7" y="60.96" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -4330,6 +4336,11 @@ http://www.xganon.com</description>
 <segment>
 <pinref part="JP1" gate="G$1" pin="2"/>
 <pinref part="SUPPLY7" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="JP2" gate="G$1" pin="1"/>
+<pinref part="SUPPLY9" gate="GND" pin="GND"/>
+<wire x1="10.16" y1="60.96" x2="2.54" y2="60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GATE_1" class="0">
@@ -4518,6 +4529,11 @@ http://www.xganon.com</description>
 <pinref part="SV2" gate="1" pin="7"/>
 <pinref part="P+1" gate="VCC" pin="VCC"/>
 <wire x1="10.16" y1="35.56" x2="15.24" y2="35.56" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="JP2" gate="G$1" pin="2"/>
+<pinref part="P+3" gate="VCC" pin="VCC"/>
+<wire x1="17.78" y1="58.42" x2="2.54" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GATE_6" class="0">
