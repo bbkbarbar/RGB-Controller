@@ -51,13 +51,13 @@
 #define PWM_CHANNEL_COUNT                   6  // based on the physical limitations of Arduino Nano
 #define ADC_MAX                          1023  // max value of 10bit adc intput
 #define PWM_MAX                           255  // max value of 8bit pwm output
-#define START_DELAY_TO_SHOW_COLOR_IN_MS  2000 
+#define START_DELAY_TO_SHOW_COLOR_IN_MS  1000 
 
 
 unsigned char color[3] = {
-  0,
-  0,
-  0
+  DEFAULT_OUTPUT_VALUE,
+  DEFAULT_OUTPUT_VALUE,
+  DEFAULT_OUTPUT_VALUE
 };
 
 const char pwmChannelMap[PWM_CHANNEL_COUNT] = {
@@ -90,9 +90,9 @@ void readColor(){
 unsigned int readDelay(){
   int value = analogRead(POT_SPEED);
   if(value == 0){
-    return 0;
+    return 1;
   }
-  return ((value / 4) + 1); // delay can be between 1 .. 256
+  return (value / 4); // delay can be between 1 .. 256
 }
 
 
@@ -121,6 +121,16 @@ void setup() {
   outputs[SIDE_2_RED]   = 0;
   outputs[SIDE_2_GREEN] = 0;
   outputs[SIDE_2_BLUE]  = 0;
+  setOutputs();
+  delay(START_DELAY_TO_SHOW_COLOR_IN_MS);
+
+  readColor();
+  outputs[SIDE_1_RED]   = 0;
+  outputs[SIDE_1_GREEN] = 0;
+  outputs[SIDE_1_BLUE]  = 0;
+  outputs[SIDE_2_RED]   = color[RED];
+  outputs[SIDE_2_GREEN] = color[GREEN];
+  outputs[SIDE_2_BLUE]  = color[BLUE];
   setOutputs();
   delay(START_DELAY_TO_SHOW_COLOR_IN_MS);
   
