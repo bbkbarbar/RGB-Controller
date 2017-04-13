@@ -103,6 +103,7 @@ unsigned int readDelay(){
   return (value / 4); // delay can be between 1 .. 256
 }
 
+#if defined(POT_MIN) && defined(POT_MAX)
 void readBoundaryValues(){
   int value = analogRead(POT_MIN);
   MIN = map(value, 0, ADC_MAX, 0, TOP);
@@ -114,6 +115,7 @@ void readBoundaryValues(){
     MIN = MAX;
   }
 }
+#endif
 
 
 void updateOutputs(){
@@ -152,7 +154,9 @@ void setup() {
   updateOutputs();
   delay(START_DELAY_TO_SHOW_COLOR_IN_MS);
 
-  readBoundaryValues();
+  #if defined(POT_MIN) && defined(POT_MAX)
+    readBoundaryValues();
+  #endif
   
 }
 
@@ -168,9 +172,11 @@ int factor2 = 0;
 void loop(){
 
   readColor();
-  readBoundaryValues();
+  #if defined(POT_MIN) && defined(POT_MAX)
+    readBoundaryValues();
+  #endif
 
-  for(factor1 = MIN, factor2 = MAX; factor1 < MAX; factor1++, factor2--){
+  for(factor1 = MIN, factor2 = MAX; factor1 <= MAX; factor1++, factor2--){
     outputs[SIDE_1_RED]   = (factor1 * color[RED]  ) / TOP;
     outputs[SIDE_1_GREEN] = (factor1 * color[GREEN]) / TOP;
     outputs[SIDE_1_BLUE]  = (factor1 * color[BLUE] ) / TOP;
@@ -181,7 +187,7 @@ void loop(){
     delay(readDelay());
   }
 
-  for(factor1 = MAX, factor2 = MIN; factor1 > MIN; factor1--, factor2++){
+  for(factor1 = MAX, factor2 = MIN; factor1 >= MIN; factor1--, factor2++){
     outputs[SIDE_1_RED]   = (factor1 * color[RED]  ) / TOP;
     outputs[SIDE_1_GREEN] = (factor1 * color[GREEN]) / TOP;
     outputs[SIDE_1_BLUE]  = (factor1 * color[BLUE] ) / TOP;
@@ -193,5 +199,6 @@ void loop(){
   }
 
 }
+
 
 
