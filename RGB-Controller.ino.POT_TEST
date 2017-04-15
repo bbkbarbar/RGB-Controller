@@ -11,11 +11,9 @@
  * Created by: Andras Boor
  * 2017.04.
  */
-#define VERSION  "v1.02"
+#define VERSION  "v1.00"
 
 //#include <EEPROM.h>
-
-#define SERIAL_ENABLED
 
 
 //===============================================================================================
@@ -66,11 +64,6 @@ unsigned char color[3] = {
   DEFAULT_OUTPUT_VALUE,
   DEFAULT_OUTPUT_VALUE
 };
-unsigned char lastColor[3] = {
-  DEFAULT_OUTPUT_VALUE,
-  DEFAULT_OUTPUT_VALUE,
-  DEFAULT_OUTPUT_VALUE
-};
 
 const char pwmChannelMap[PWM_CHANNEL_COUNT] = {
   PWM_OUTPUT_CH0,
@@ -109,47 +102,17 @@ void readColor(){
   value += analogRead(POT_BLUE);
   value /= 3;
   color[BLUE] = map(value, 0, ADC_MAX, 0, PWM_MAX); //Map ADC value to PWM value
-
-  #ifdef SERIAL_ENABLED
-    if( (lastColor[0] != color[0]) || (lastColor[1] != color[1]) || (lastColor[2] != color[2]) ){
-    Serial.println("R: "  + String(color[RED]) +
-                   " G: " + String(color[GREEN]) +
-                   " B: " + String(color[BLUE]));
-    }
-    lastColor[0] = color[0];
-    lastColor[1] = color[1];
-    lastColor[2] = color[2];
-  #endif
 }
-
-unsigned int lastDelayValue = -1;
 
 unsigned int readDelay(){
   int value = analogRead(POT_SPEED);
-  
   if(value == 0){
-    value = 1;
-  }else{
-    value = (value / 8);
+    return 1;
   }
-  #ifdef SERIAL_ENABLED
-    if( (lastDelayValue - value) != 0){
-      Serial.println("Delay: " + String(value) + "ms");    
-    }
-  #endif
-
-  lastDelayValue = value;
-  
-  return value;
+  return (value / 4); // delay can be between 1 .. 256
 }
 
 #if defined(POT_MIN) && defined(POT_MAX)
-  
-  #ifdef SERIAL_ENABLED
-    int lastMin = -1;
-    int lastMax = -1;
-  #endif  
-
 void readBoundaryValues(){
   int value = analogRead(POT_MIN);
   MIN = map(value, 0, ADC_MAX, 0, TOP);
@@ -160,15 +123,6 @@ void readBoundaryValues(){
   if(MIN > MAX){
     MIN = MAX;
   }
-
-  #ifdef SERIAL_ENABLED
-    if( ((lastMin - MIN) != 0) || ((lastMax - MAX) != 0)){
-      Serial.println("Range: " + String(MIN) + "% - " + String(MAX) + "%");
-    }
-  #endif
-
-  lastMin = MIN;
-  lastMax = MAX;
 }
 #endif
 
@@ -182,10 +136,6 @@ void updateOutputs(){
 //=================================================================================
 
 void setup() {
-
-  #ifdef SERIAL_ENABLED
-    Serial.begin(4800);
-  #endif
 
   // sets the pin for PWM outputs
   for(unsigned char i=0; i<PWM_CHANNEL_COUNT; i++){

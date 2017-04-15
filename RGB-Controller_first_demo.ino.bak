@@ -83,8 +83,8 @@ int brightness = 0;
 void loop(){
   // int val = analogRead(analogPin);
   for(brightness = MIN; brightness < MAX; brightness++){
-    outputs[1] = 0;
-    outputs[0] = (brightness * COLOR_FACTOR_OF_GREEN);
+    outputs[0] = 0;
+    outputs[1] = (brightness * COLOR_FACTOR_OF_GREEN);
     outputs[2] = (brightness * COLOR_FACTOR_OF_BLUE);
     outputs[3] = 0;
     outputs[4] = ((MAX-brightness) * COLOR_FACTOR_OF_GREEN) + MIN;
@@ -95,7 +95,7 @@ void loop(){
 
   for(brightness = MAX; brightness > MIN; brightness--){
     outputs[1] = 0;
-    outputs[0] = (brightness * COLOR_FACTOR_OF_GREEN);
+    outputs[1] = (brightness * COLOR_FACTOR_OF_GREEN);
     outputs[2] = (brightness * COLOR_FACTOR_OF_BLUE);
     outputs[3] = 0;
     outputs[4] = ((MAX-brightness) * COLOR_FACTOR_OF_GREEN) + MIN;
